@@ -6,6 +6,7 @@ import {
     Text,
     TextInput
 } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 
 import {Button} from '../components/button'
 
@@ -14,7 +15,14 @@ import fonts from '../styles/fonts';
 
 import { FontAwesome5 } from '@expo/vector-icons';
 
+
 export function Confirmation(){
+    const navigation = useNavigation();
+
+    function handleMoveOn(){
+        navigation.navigate('plantSelect');
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
@@ -32,6 +40,7 @@ export function Confirmation(){
                 <View style={styles.footer} >
                     <Button 
                         title="Começar"
+                        onPress={handleMoveOn}
                     />
                 </View>
             </View>
