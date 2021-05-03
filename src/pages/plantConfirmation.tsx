@@ -6,59 +6,41 @@ import {
     Text,
     TextInput
 } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/core';
 
-import {Button} from '../components/button';
+import {Button} from '../components/button'
 
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-interface Params {
-    title: string;
-    subTitle: string;
-    buttonTitle: string;
-    icon: 'smile' | 'hug';
-    nextScreen: string;
-}
+import { FontAwesome5 } from '@expo/vector-icons';
 
-const emojis = {
-    hug: '🤗',
-    smile: '😉'
-}
 
 export function Confirmation(){
     const navigation = useNavigation();
-    const routes = useRoute();
-
-    const {
-        title,
-        subTitle,
-        buttonTitle,
-        icon,
-        nextScreen
-
-    } = routes.params as Params;
 
     function handleMoveOn(){
-        navigation.navigate(nextScreen);
+        navigation.navigate('plantSelect');
     }
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
                 <Text style={styles.emoji}>
-                    {emojis[icon]}
+                    😎
                 </Text>
                 <Text style={styles.title} >
-                    {title}
+                    Tudo Certo
                 </Text>
                 <Text style={styles.subtitle} >
-                    {subTitle}
+                Fique tranquilo que sempre vamos {'\n'}
+                lembrar você de cuidar da sua plantinha {'\n'}
+                com bastante amor.
                 </Text>
 
                 <View style={styles.footer} >
                     <Button 
-                        title={buttonTitle}
+                        title="Muito obrigado"
                         onPress={handleMoveOn}
                     />
                 </View>

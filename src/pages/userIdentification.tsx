@@ -8,9 +8,11 @@ import {
     Dimensions,
     View,
     TextInput,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    Alert
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {Fontisto} from '@expo/vector-icons';
 
@@ -40,9 +42,29 @@ export function UserIdentification(){
         setName(value);
     }
 
+    // Adicionou o "async" para liberar o "await" e esperar o name ser salvo de fato.
+    async function handleSubmit(){
 
-    function handleSubmit(){
-        navigation.navigate('confirmation');
+        // Validação de presença do nome do Usuário,
+        // Se não tiver nome return uma mensagem.
+        if(!name) return Alert.alert('Me diga seu nome 😢');
+
+        // Async Storage: para salvar dados dentro do dispositivo do User
+        // Adiciona o "await" para garantir que quando chegar no salvamento ele vai aguardar o dado ser salvo
+        // e depois libera para continuar. Pois o AsyncStorage demora um pouco para salvar.
+       try{
+        await AsyncStorage.setItem('@plantmanager:user', name);
+        navigation.navigate('confirmation', {
+            title: 'Prontinho',
+            subTitle: ' Agora vamos começar a cuidar das suas \n plantinhas com muito cuidado.',
+            buttonTitle: 'Começar',
+            icon: 'smile',
+            nextScreen: 'plantSelect'
+        });
+       }catch{
+           Alert.alert('Não foi possivel salvar seu nome. 😭')
+       }
+        
     }
 
     return (
@@ -51,7 +73,7 @@ export function UserIdentification(){
                 <View style={styles.content} >
                     <View style={styles.form} >
                         <Text style={styles.emoji}>
-                            <Fontisto name="smiley" size={40} color={colors.green_dark} />
+                            😃
                         </Text>
 
                         <Text style={styles.title} >
